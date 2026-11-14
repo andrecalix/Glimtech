@@ -1,0 +1,31 @@
+name: Atualizar Preços via PDF
+
+on:
+  push:
+    paths:
+      - 'pdfs/**' # Executa sempre que você alterar ou enviar um PDF novo na pasta pdfs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar Código do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Leitor de PDF
+        run: pip install pypdf
+
+      - name: Rodar Script de Atualização
+        run: python atualizar_precos.py
+
+      - name: Salvar Alterações no Site
+        run: |
+          git config --global user.name "Robô da Loja"
+          git config --global user.email "robo@giomtech.com"
+          git add produtos.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Atualização automática de preços via PDF" && git push)
