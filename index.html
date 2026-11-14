@@ -10,7 +10,6 @@
     header h1 { margin: 0; color: #fff; font-size: 26px; }
     header p { color: #8b949e; margin: 5px 0 15px 0; font-size: 14px; }
     
-    /* Estilo da barra de busca com suporte a lista suspensa */
     .caixa-busca { position: relative; display: inline-block; width: 100%; max-width: 450px; }
     #busca { width: 100%; padding: 12px 15px; font-size: 16px; border: 1px solid #30363d; border-radius: 6px; background-color: #161b22; color: #fff; outline: none; box-sizing: border-box; }
     #busca:focus { border-color: #007bff; }
@@ -47,12 +46,9 @@
     <h1>⚡ GlimTech - Soluções Elétricas & Climatização</h1>
     <p>Catálogo Completo - Ipatinga / MG</p>
     
-    <!-- Barra de busca com a lista suspensa (datalist) -->
     <div class="caixa-busca">
       <input type="text" id="busca" list="opcoes-componentes" oninput="filtrarProdutos()" placeholder="🔍 Selecione ou pesquise um componente...">
-      <datalist id="opcoes-componentes">
-        <!-- As opções serão preenchidas automaticamente pelo JavaScript -->
-      </datalist>
+      <datalist id="opcoes-componentes"></datalist>
     </div>
   </header>
 
@@ -76,7 +72,6 @@
     let carrinho = [];
     let total = 0;
 
-    // Carrega o arquivo produtos.json
     fetch('produtos.json')
       .then(response => response.json())
       .then(data => {
@@ -89,7 +84,6 @@
         document.getElementById('produtos-loja').innerHTML = '<p style="color: #f85149;">Erro ao carregar o catálogo. Verifique se o arquivo produtos.json está na mesma pasta.</p>';
       });
 
-    // Preenche a lista suspensa (setinha da barra de busca) com os nomes dos produtos
     function popularListaSuspensa(lista) {
       const datalist = document.getElementById('opcoes-componentes');
       datalist.innerHTML = '';
@@ -128,6 +122,10 @@
       carrinho.push({ nome, preco });
       total += preco;
       atualizarCarrinho();
+
+      // Limpa a barra de busca e restaura o catálogo completo automaticamente ao adicionar
+      document.getElementById('busca').value = '';
+      renderizarProdutos(produtosDB);
     }
 
     function atualizarCarrinho() {
