@@ -2,55 +2,112 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Caso 3 - Vitrine com Carrinho (Ipatinga)</title>
+  <title>GlimTech - Soluções Elétricas e Climatização (Ipatinga)</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background-color: #f4f6f8; display: flex; gap: 30px; flex-wrap: wrap; }
-    .principal { flex: 1; }
-    .grid { display: flex; gap: 15px; flex-wrap: wrap; }
-    .item { background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 170px; text-align: center; }
-    .item img { width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; }
-    .carrinho { background: white; border: 2px solid #25D366; padding: 20px; border-radius: 8px; width: 280px; height: fit-content; }
-    button { cursor: pointer; padding: 8px 12px; border: none; border-radius: 4px; background: #0056b3; color: white; width: 100%; font-weight: bold; margin-top: 10px; }
-    .btn-zap { background: #25D366; font-size: 16px; }
-    ul#lista-carrinho { padding-left: 20px; max-height: 180px; overflow-y: auto; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #0d1117; color: #f0f6fc; }
+    
+    /* Cabeçalho Estilo GlimTech */
+    header { background: linear-gradient(135deg, #090d16 0%, #161b22 100%); border-bottom: 2px solid #007bff; padding: 25px 20px; text-align: center; }
+    header h1 { margin: 0; color: #fff; font-size: 26px; }
+    header p { color: #8b949e; margin: 5px 0 15px 0; font-size: 14px; }
+    
+    #busca { width: 100%; max-width: 450px; padding: 12px 15px; font-size: 16px; border: 1px solid #30363d; border-radius: 6px; background-color: #161b22; color: #fff; outline: none; }
+    #busca:focus { border-color: #007bff; }
+
+    /* Layout Principal */
+    .container-principal { display: flex; gap: 30px; padding: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    
+    .catalogo { flex: 1; display: flex; gap: 20px; flex-wrap: wrap; align-content: flex-start; }
+    
+    /* Card do Produto */
+    .item { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 10px; width: 190px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+    .item:hover { transform: translateY(-3px); border-color: #58a6ff; }
+    
+    .item img { width: 100px; height: 100px; object-fit: contain; margin: 0 auto 15px auto; background: #fff; padding: 5px; border-radius: 6px; }
+    .item h4 { font-size: 15px; margin: 0 0 10px 0; color: #c9d1d9; }
+    .item p { font-weight: bold; color: #3fb950; margin: 0 0 15px 0; font-size: 16px; }
+    
+    .item button { cursor: pointer; padding: 10px; border: none; border-radius: 6px; background: #238636; color: white; width: 100%; font-weight: bold; font-size: 14px; transition: background 0.2s; }
+    .item button:hover { background: #2ea043; }
+
+    /* Carrinho lateral */
+    .carrinho { background: #161b22; border: 2px solid #238636; padding: 20px; border-radius: 10px; width: 300px; height: fit-content; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .carrinho h3 { margin-top: 0; color: #c9d1d9; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+    
+    ul#lista-carrinho { padding-left: 20px; max-height: 220px; overflow-y: auto; color: #8b949e; }
+    ul#lista-carrinho li { font-size: 14px; margin-bottom: 8px; }
+    
+    .total-txt { font-size: 16px; color: #f0f6fc; margin: 15px 0; }
+    
+    .btn-zap { cursor: pointer; background: #238636; color: white; border: none; border-radius: 6px; width: 100%; padding: 12px; font-size: 16px; font-weight: bold; transition: background 0.2s; }
+    .btn-zap:hover { background: #2ea043; }
   </style>
 </head>
 <body>
 
-  <div class="principal">
-    <h2>GlimTech Ipatinga - Carrinho de Compras</h2>
-    <div class="grid" id="produtos-loja"></div>
-  </div>
+  <!-- Cabeçalho com Busca Integrada -->
+  <header>
+    <h1>⚡ GlimTech - Soluções Elétricas & Climatização</h1>
+    <p>Fornecedores e Materiais em Ipatinga - MG</p>
+    <input type="text" id="busca" onkeyup="filtrarProdutos()" placeholder="🔍 Pesquisar componente (ex: Disjuntor, Cabo, Lâmpada)...">
+  </header>
 
-  <div class="carrinho">
-    <h3>Seu Pedido</h3>
-    <ul id="lista-carrinho"></ul>
-    <p><strong>Total: R$ <span id="total">0.00</span></strong></p>
-    <button class="btn-zap" onclick="enviarWhatsApp()">Enviar Pedido no WhatsApp</button>
+  <div class="container-principal">
+    
+    <!-- Vitrine de Produtos -->
+    <div class="catalogo" id="produtos-loja">
+      <!-- Inserido dinamicamente via JS -->
+    </div>
+
+    <!-- Carrinho / Resumo -->
+    <div class="carrinho">
+      <h3>🛒 Seu Pedido</h3>
+      <ul id="lista-carrinho">
+        <li style="list-style: none; margin-left: -20px;">Nenhum item adicionado.</li>
+      </ul>
+      <div class="total-txt"><strong>Total: R$ <span id="total">0.00</span></strong></div>
+      <button class="btn-zap" onclick="enviarWhatsApp()">Enviar Pedido no WhatsApp</button>
+    </div>
+
   </div>
 
   <script>
+    // Banco de dados interno
     const produtosDB = [
-      { id: 1, nome: "Disjuntor Monopolar 20A", preco: 15.90, imagem: "disjuntor.jpg" },
-      { id: 2, nome: "Lâmpada LED 9W Bivolt", preco: 8.50, imagem: "lampada.jpg" },
-      { id: 3, nome: "Tomada 20A 2P+T", preco: 12.00, imagem: "tomada.jpg" },
-      { id: 4, nome: "Cabo Flexível 2,5mm (100m)", preco: 149.00, imagem: "cabo.jpg" }
+      { id: 1, nome: "Disjuntor Monopolar 20A", categoria: "elétrica disjuntor", preco: 15.90, imagem: "disjuntor.jpg" },
+      { id: 2, nome: "Lâmpada LED 9W Bivolt", categoria: "iluminação lampada led", preco: 8.50, imagem: "lampada.jpg" },
+      { id: 3, nome: "Tomada 20A 2P+T", categoria: "tomadas eletrica", preco: 12.00, imagem: "tomada.jpg" },
+      { id: 4, nome: "Cabo Flexível 2,5mm (100m)", categoria: "fios cabos eletrica", preco: 149.00, imagem: "cabo.jpg" }
     ];
 
     let carrinho = [];
     let total = 0;
 
-    const container = document.getElementById('produtos-loja');
-    produtosDB.forEach(prod => {
-      container.innerHTML += `
-        <div class="item">
-          <img src="${prod.imagem}" alt="${prod.nome}">
-          <h4>${prod.nome}</h4>
-          <p>R$ ${prod.preco.toFixed(2)}</p>
-          <button onclick="adicionar('${prod.nome}', ${prod.preco})">+ Adicionar</button>
-        </div>
-      `;
-    });
+    function renderizarProdutos(lista) {
+      const container = document.getElementById('produtos-loja');
+      container.innerHTML = '';
+      
+      if (lista.length === 0) {
+        container.innerHTML = '<p style="color: #8b949e;">Nenhum produto encontrado.</p>';
+        return;
+      }
+
+      lista.forEach(prod => {
+        container.innerHTML += `
+          <div class="item" data-busca="${prod.nome.toLowerCase()} ${prod.categoria}">
+            <div>
+              <img src="${prod.imagem}" alt="${prod.nome}" onerror="this.src='https://via.placeholder.com/100?text=GlimTech'">
+              <h4>${prod.nome}</h4>
+              <p>R$ ${prod.preco.toFixed(2)}</p>
+            </div>
+            <button onclick="adicionar('${prod.nome}', ${prod.preco})">+ Adicionar</button>
+          </div>
+        `;
+      });
+    }
+
+    // Inicializa carregando todos os produtos
+    renderizarProdutos(produtosDB);
 
     function adicionar(nome, preco) {
       carrinho.push({ nome, preco });
@@ -61,12 +118,23 @@
     function atualizarCarrinho() {
       const lista = document.getElementById('lista-carrinho');
       lista.innerHTML = '';
-      carrinho.forEach(item => {
-        let li = document.createElement('li');
-        li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
-        lista.appendChild(li);
-      });
+      
+      if (carrinho.length === 0) {
+        lista.innerHTML = '<li style="list-style: none; margin-left: -20px;">Nenhum item adicionado.</li>';
+      } else {
+        carrinho.forEach(item => {
+          let li = document.createElement('li');
+          li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
+          lista.appendChild(li);
+        });
+      }
       document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    function filtrarProdutos() {
+      let termo = document.getElementById('busca').value.toLowerCase();
+      let filtrados = produtosDB.filter(p => p.nome.toLowerCase().includes(termo) || p.categoria.includes(termo));
+      renderizarProdutos(filtrados);
     }
 
     function enviarWhatsApp() {
