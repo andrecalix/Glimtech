@@ -2,36 +2,34 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>GlimTech - Soluções Elétricas e Climatização (Ipatinga)</title>
+  <title>GlimTech - Soluções Elétricas & Climatização (Ipatinga)</title>
   <style>
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: #0d1117; color: #f0f6fc; }
     
-    /* Cabeçalho Estilo GlimTech */
     header { background: linear-gradient(135deg, #090d16 0%, #161b22 100%); border-bottom: 2px solid #007bff; padding: 25px 20px; text-align: center; }
     header h1 { margin: 0; color: #fff; font-size: 26px; }
     header p { color: #8b949e; margin: 5px 0 15px 0; font-size: 14px; }
     
-    #busca { width: 100%; max-width: 450px; padding: 12px 15px; font-size: 16px; border: 1px solid #30363d; border-radius: 6px; background-color: #161b22; color: #fff; outline: none; }
+    /* Estilo da barra de busca com suporte a lista suspensa */
+    .caixa-busca { position: relative; display: inline-block; width: 100%; max-width: 450px; }
+    #busca { width: 100%; padding: 12px 15px; font-size: 16px; border: 1px solid #30363d; border-radius: 6px; background-color: #161b22; color: #fff; outline: none; box-sizing: border-box; }
     #busca:focus { border-color: #007bff; }
 
-    /* Layout Principal */
     .container-principal { display: flex; gap: 30px; padding: 30px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+    .catalogo { flex: 1; display: flex; gap: 20px; flex-wrap: wrap; align-content: flex-start; justify-content: center; }
     
-    .catalogo { flex: 1; display: flex; gap: 20px; flex-wrap: wrap; align-content: flex-start; }
-    
-    /* Card do Produto */
     .item { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 10px; width: 190px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
     .item:hover { transform: translateY(-3px); border-color: #58a6ff; }
     
     .item img { width: 100px; height: 100px; object-fit: contain; margin: 0 auto 15px auto; background: #fff; padding: 5px; border-radius: 6px; }
+    .item span.cat { font-size: 11px; color: #58a6ff; text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px; }
     .item h4 { font-size: 15px; margin: 0 0 10px 0; color: #c9d1d9; }
     .item p { font-weight: bold; color: #3fb950; margin: 0 0 15px 0; font-size: 16px; }
     
     .item button { cursor: pointer; padding: 10px; border: none; border-radius: 6px; background: #238636; color: white; width: 100%; font-weight: bold; font-size: 14px; transition: background 0.2s; }
     .item button:hover { background: #2ea043; }
 
-    /* Carrinho lateral */
-    .carrinho { background: #161b22; border: 2px solid #238636; padding: 20px; border-radius: 10px; width: 300px; height: fit-content; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .carrinho { background: #161b22; border: 2px solid #238636; padding: 20px; border-radius: 10px; width: 300px; height: fit-content; box-shadow: 0 4px 10px rgba(0,0,0,0.3); position: sticky; top: 20px; }
     .carrinho h3 { margin-top: 0; color: #c9d1d9; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
     
     ul#lista-carrinho { padding-left: 20px; max-height: 220px; overflow-y: auto; color: #8b949e; }
@@ -45,21 +43,24 @@
 </head>
 <body>
 
-  <!-- Cabeçalho com Busca Integrada -->
   <header>
     <h1>⚡ GlimTech - Soluções Elétricas & Climatização</h1>
-    <p>Fornecedores e Materiais em Ipatinga - MG</p>
-    <input type="text" id="busca" onkeyup="filtrarProdutos()" placeholder="🔍 Pesquisar componente (ex: Disjuntor, Cabo, Lâmpada)...">
+    <p>Catálogo Completo - Ipatinga / MG</p>
+    
+    <!-- Barra de busca com a lista suspensa (datalist) -->
+    <div class="caixa-busca">
+      <input type="text" id="busca" list="opcoes-componentes" oninput="filtrarProdutos()" placeholder="🔍 Selecione ou pesquise um componente...">
+      <datalist id="opcoes-componentes">
+        <!-- As opções serão preenchidas automaticamente pelo JavaScript -->
+      </datalist>
+    </div>
   </header>
 
   <div class="container-principal">
-    
-    <!-- Vitrine de Produtos -->
     <div class="catalogo" id="produtos-loja">
-      <!-- Inserido dinamicamente via JS -->
+      <p style="color: #8b949e;">Carregando catálogo...</p>
     </div>
 
-    <!-- Carrinho / Resumo -->
     <div class="carrinho">
       <h3>🛒 Seu Pedido</h3>
       <ul id="lista-carrinho">
@@ -68,20 +69,36 @@
       <div class="total-txt"><strong>Total: R$ <span id="total">0.00</span></strong></div>
       <button class="btn-zap" onclick="enviarWhatsApp()">Enviar Pedido no WhatsApp</button>
     </div>
-
   </div>
 
   <script>
-    // Banco de dados interno
-    const produtosDB = [
-      { id: 1, nome: "Disjuntor Monopolar 20A", categoria: "elétrica disjuntor", preco: 15.90, imagem: "disjuntor.jpg" },
-      { id: 2, nome: "Lâmpada LED 9W Bivolt", categoria: "iluminação lampada led", preco: 8.50, imagem: "lampada.jpg" },
-      { id: 3, nome: "Tomada 20A 2P+T", categoria: "tomadas eletrica", preco: 12.00, imagem: "tomada.jpg" },
-      { id: 4, nome: "Cabo Flexível 2,5mm (100m)", categoria: "fios cabos eletrica", preco: 149.00, imagem: "cabo.jpg" }
-    ];
-
+    let produtosDB = [];
     let carrinho = [];
     let total = 0;
+
+    // Carrega o arquivo produtos.json
+    fetch('produtos.json')
+      .then(response => response.json())
+      .then(data => {
+        produtosDB = data;
+        renderizarProdutos(produtosDB);
+        popularListaSuspensa(produtosDB);
+      })
+      .catch(error => {
+        console.error("Erro ao carregar produtos:", error);
+        document.getElementById('produtos-loja').innerHTML = '<p style="color: #f85149;">Erro ao carregar o catálogo. Verifique se o arquivo produtos.json está na mesma pasta.</p>';
+      });
+
+    // Preenche a lista suspensa (setinha da barra de busca) com os nomes dos produtos
+    function popularListaSuspensa(lista) {
+      const datalist = document.getElementById('opcoes-componentes');
+      datalist.innerHTML = '';
+      lista.forEach(prod => {
+        let option = document.createElement('option');
+        option.value = prod.nome;
+        datalist.appendChild(option);
+      });
+    }
 
     function renderizarProdutos(lista) {
       const container = document.getElementById('produtos-loja');
@@ -94,8 +111,9 @@
 
       lista.forEach(prod => {
         container.innerHTML += `
-          <div class="item" data-busca="${prod.nome.toLowerCase()} ${prod.categoria}">
+          <div class="item">
             <div>
+              <span class="cat">${prod.categoria}</span>
               <img src="${prod.imagem}" alt="${prod.nome}" onerror="this.src='https://via.placeholder.com/100?text=GlimTech'">
               <h4>${prod.nome}</h4>
               <p>R$ ${prod.preco.toFixed(2)}</p>
@@ -105,9 +123,6 @@
         `;
       });
     }
-
-    // Inicializa carregando todos os produtos
-    renderizarProdutos(produtosDB);
 
     function adicionar(nome, preco) {
       carrinho.push({ nome, preco });
@@ -132,8 +147,14 @@
     }
 
     function filtrarProdutos() {
-      let termo = document.getElementById('busca').value.toLowerCase();
-      let filtrados = produtosDB.filter(p => p.nome.toLowerCase().includes(termo) || p.categoria.includes(termo));
+      let termoDigitado = document.getElementById('busca').value.toLowerCase().trim();
+      let palavras = termoDigitado.split(/\s+/);
+
+      let filtrados = produtosDB.filter(p => {
+        let textoProduto = (p.nome + " " + p.categoria).toLowerCase();
+        return palavras.every(palavra => textoProduto.includes(palavra));
+      });
+
       renderizarProdutos(filtrados);
     }
 
