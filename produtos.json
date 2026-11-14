@@ -1,0 +1,17 @@
+[
+  { "id": 1, "nome": "Disjuntor Monopolar 10A", "categoria": "elétrica", "preco": 14.50, "imagem": "disjuntor.jpg" },
+  { "id": 2, "nome": "Disjuntor Monopolar 16A", "categoria": "elétrica", "preco": 15.00, "imagem": "disjuntor.jpg" },
+  { "id": 3, "nome": "Disjuntor Monopolar 20A", "categoria": "elétrica", "preco": 15.90, "imagem": "disjuntor.jpg" },
+  { "id": 4, "nome": "Disjuntor Bipolar 32A", "categoria": "elétrica", "preco": 38.90, "imagem": "disjuntor.jpg" },
+  { "id": 5, "nome": "Cabo Flexível 1,5mm (100m)", "categoria": "fios e cabos", "preco": 98.00, "imagem": "cabo.jpg" },
+  { "id": 6, "nome": "Cabo Flexível 2,5mm (100m)", "categoria": "fios e cabos", "preco": 149.00, "imagem": "cabo.jpg" },
+  { "id": 7, "nome": "Cabo Flexível 4,0mm (100m)", "categoria": "fios e cabos", "preco": 235.00, "imagem": "cabo.jpg" },
+  { "id": 8, "nome": "Lâmpada LED 9W Bivolt", "categoria": "iluminação", "preco": 8.50, "imagem": "lampada.jpg" },
+  { "id": 9, "nome": "Lâmpada LED 12W Bivolt", "categoria": "iluminação", "preco": 11.90, "imagem": "lampada.jpg" },
+  { "id": 10, "nome": "Refletor LED 50W Branco Frio", "categoria": "iluminação", "preco": 45.00, "imagem": "refletor.jpg" },
+  { "id": 11, "nome": "Tomada 20A 2P+T", "categoria": "tomadas", "preco": 12.00, "imagem": "tomada.jpg" },
+  { "id": 12, "nome": "Interruptor Simples + Tomada", "categoria": "tomadas", "preco": 16.50, "imagem": "tomada.jpg" },
+  { "id": 13, "nome": "Ar-Condicionado Split 9000 BTUs Inverter", "categoria": "climatização", "preco": 1899.00, "imagem": "ar.jpg" },
+  { "id": 14, "nome": "Ar-Condicionado Split 12000 BTUs Inverter", "categoria": "climatização", "preco": 2299.00, "imagem": "ar.jpg" },
+  { "id": 15, "nome": "Tubulação de Cobre 1/4 e 3/8 (Metro)", "categoria": "climatização", "preco": 35.00, "imagem": "cobre.jpg" }
+]
