@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caso 3 - Vitrine com Carrinho (Ipatinga)</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #f4f6f8; display: flex; gap: 30px; flex-wrap: wrap; }
+    .principal { flex: 1; }
+    .grid { display: flex; gap: 15px; flex-wrap: wrap; }
+    .item { background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 170px; text-align: center; }
+    .item img { width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; }
+    .carrinho { background: white; border: 2px solid #25D366; padding: 20px; border-radius: 8px; width: 280px; height: fit-content; }
+    button { cursor: pointer; padding: 8px 12px; border: none; border-radius: 4px; background: #0056b3; color: white; width: 100%; font-weight: bold; margin-top: 10px; }
+    .btn-zap { background: #25D366; font-size: 16px; }
+    ul#lista-carrinho { padding-left: 20px; max-height: 180px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+
+  <div class="principal">
+    <h2>GlimTech Ipatinga - Carrinho de Compras</h2>
+    <div class="grid" id="produtos-loja"></div>
+  </div>
+
+  <div class="carrinho">
+    <h3>Seu Pedido</h3>
+    <ul id="lista-carrinho"></ul>
+    <p><strong>Total: R$ <span id="total">0.00</span></strong></p>
+    <button class="btn-zap" onclick="enviarWhatsApp()">Enviar Pedido no WhatsApp</button>
+  </div>
+
+  <script>
+    const produtosDB = [
+      { id: 1, nome: "Disjuntor Monopolar 20A", preco: 15.90, imagem: "disjuntor.jpg" },
+      { id: 2, nome: "Lâmpada LED 9W Bivolt", preco: 8.50, imagem: "lampada.jpg" },
+      { id: 3, nome: "Tomada 20A 2P+T", preco: 12.00, imagem: "tomada.jpg" },
+      { id: 4, nome: "Cabo Flexível 2,5mm (100m)", preco: 149.00, imagem: "cabo.jpg" }
+    ];
+
+    let carrinho = [];
+    let total = 0;
+
+    const container = document.getElementById('produtos-loja');
+    produtosDB.forEach(prod => {
+      container.innerHTML += `
+        <div class="item">
+          <img src="${prod.imagem}" alt="${prod.nome}">
+          <h4>${prod.nome}</h4>
+          <p>R$ ${prod.preco.toFixed(2)}</p>
+          <button onclick="adicionar('${prod.nome}', ${prod.preco})">+ Adicionar</button>
+        </div>
+      `;
+    });
+
+    function adicionar(nome, preco) {
+      carrinho.push({ nome, preco });
+      total += preco;
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const lista = document.getElementById('lista-carrinho');
+      lista.innerHTML = '';
+      carrinho.forEach(item => {
+        let li = document.createElement('li');
+        li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
+        lista.appendChild(li);
+      });
+      document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    function enviarWhatsApp() {
+      if (carrinho.length === 0) return alert('Adicione itens ao pedido primeiro!');
+      
+      let texto = "Olá! Gostaria de fazer o seguinte pedido na GlimTech (Ipatinga):\n\n";
+      carrinho.forEach(item => {
+        texto += `- ${item.nome} (R$ ${item.preco.toFixed(2)})\n`;
+      });
+      texto += `\n*Total: R$ ${total.toFixed(2)}*`;
+
+      let telefone = "5531982993352";
+      let url = `https://wa.me/${telefone}?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
