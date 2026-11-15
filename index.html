@@ -92,7 +92,7 @@
 
     <div class="lateral-direita">
       
-      <!-- PAINEL 1: SEU PEDIDO -->
+      <!-- PAINEL 1: SEU PEDIDO (ORIGINAL) -->
       <div class="carrinho">
         <h3>🛒 Seu Pedido</h3>
         <ul id="lista-carrinho">
@@ -122,7 +122,7 @@
 
         <div id="preview-valor-servico" class="preview-valor"></div>
 
-        <!-- OPÇÃO SIMPLES E ELEGANTE DE PARTE ELÉTRICA -->
+        <!-- OPÇÃO DE PARTE ELÉTRICA -->
         <div class="opcao-eletrica">
           <label>
             <input type="checkbox" id="check-eletrica" onchange="alternarNotaEletrica()">
@@ -134,7 +134,7 @@
         </div>
 
         <span class="label-etapa">3. Detalhes adicionais (opcional):</span>
-        <textarea id="obs-servico" class="input-servico" placeholder="Ex: Modelo do aparelho, andar, ou observações..."></textarea>
+        <textarea id="obs-servico" class="input-servico" placeholder="Ex: Modelo do aparelho, andar, observações..."></textarea>
         
         <button class="btn-add-servico" onclick="adicionarServicoAoPedido()">+ Incluir Serviço no Pedido</button>
 
@@ -292,7 +292,6 @@
       
       atualizarCarrinho();
 
-      // Limpa os campos após adicionar
       document.getElementById('select-servico').value = '';
       document.getElementById('obs-servico').value = '';
       document.getElementById('check-eletrica').checked = false;
