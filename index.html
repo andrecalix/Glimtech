@@ -31,7 +31,7 @@
     /* Coluna Lateral */
     .lateral-direita { display: flex; flex-direction: column; gap: 20px; width: 330px; }
 
-    /* Painel 1: Seu Pedido (ORIGINAL PRESERVADO) */
+    /* Painel 1: Seu Pedido */
     .carrinho { background: #161b22; border: 2px solid #238636; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
     .carrinho h3 { margin-top: 0; color: #c9d1d9; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
     
@@ -39,7 +39,7 @@
     ul#lista-carrinho li { font-size: 14px; margin-bottom: 8px; }
     
     .total-txt { font-size: 16px; color: #f0f6fc; margin: 15px 0; }
-    .btn-zap { cursor: pointer; background: #238636; color: white; border: none; border-radius: 6px; width: 100%; padding: 12px; font-size: 16px; font-weight: bold; transition: background 0.2s; }
+    .btn-zap { cursor: pointer; background: #238636; color: white; border: none; border-radius: 6px; width: 100%; padding: 12px; font-size: 15px; font-weight: bold; transition: background 0.2s; }
     .btn-zap:hover { background: #2ea043; }
 
     /* Painel 2: Instalação e Manutenção INTERATIVO */
@@ -66,6 +66,8 @@
     .nota-eletrica { display: none; font-size: 11px; color: #8b949e; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #30363d; line-height: 1.4; }
     .nota-eletrica strong { color: #3fb950; }
 
+    /* Botões de Ação do Serviço */
+    .acoes-servico { display: flex; flex-direction: column; gap: 8px; }
     .btn-add-servico { cursor: pointer; background: #1f6feb; color: white; border: none; border-radius: 6px; width: 100%; padding: 10px; font-weight: bold; font-size: 13px; transition: background 0.2s; }
     .btn-add-servico:hover { background: #388bfd; }
 
@@ -92,7 +94,7 @@
 
     <div class="lateral-direita">
       
-      <!-- PAINEL 1: SEU PEDIDO (ORIGINAL) -->
+      <!-- PAINEL 1: SEU PEDIDO -->
       <div class="carrinho">
         <h3>🛒 Seu Pedido</h3>
         <ul id="lista-carrinho">
@@ -136,7 +138,11 @@
         <span class="label-etapa">3. Detalhes adicionais (opcional):</span>
         <textarea id="obs-servico" class="input-servico" placeholder="Ex: Modelo do aparelho, andar, observações..."></textarea>
         
-        <button class="btn-add-servico" onclick="adicionarServicoAoPedido()">+ Incluir Serviço no Pedido</button>
+        <!-- BOTÕES DE AÇÃO DO SERVIÇO -->
+        <div class="acoes-servico">
+          <button class="btn-zap" onclick="enviarServicoDiretoWhatsApp()">📲 Enviar Solicitação no WhatsApp</button>
+          <button class="btn-add-servico" onclick="adicionarServicoAoPedido()">+ Incluir no Pedido Geral</button>
+        </div>
 
         <div id="box-condicoes" class="aviso-instalacao">
           <strong>*Condições de Instalação:</strong> Inclui até 3m de tubulação de cobre e suporte. Metragem extra cobrada à parte. Dreno e parte elétrica por conta do contratante (ou contratados à parte). Garantia de 3 meses (exceto raios, chuvas, ventos ou terceiros).
@@ -266,6 +272,14 @@
       renderizarProdutos(produtosDB);
     }
 
+    function limparCamposServico() {
+      document.getElementById('select-servico').value = '';
+      document.getElementById('obs-servico').value = '';
+      document.getElementById('check-eletrica').checked = false;
+      document.getElementById('nota-eletrica').style.display = 'none';
+      document.getElementById('preview-valor-servico').style.display = 'none';
+    }
+
     function adicionarServicoAoPedido() {
       let nomeServico = document.getElementById('select-servico').value;
       let querEletrica = document.getElementById('check-eletrica').checked;
@@ -291,12 +305,39 @@
       }
       
       atualizarCarrinho();
+      limparCamposServico();
+    }
 
-      document.getElementById('select-servico').value = '';
-      document.getElementById('obs-servico').value = '';
-      document.getElementById('check-eletrica').checked = false;
-      document.getElementById('nota-eletrica').style.display = 'none';
-      document.getElementById('preview-valor-servico').style.display = 'none';
+    function enviarServicoDiretoWhatsApp() {
+      let nomeServico = document.getElementById('select-servico').value;
+      let querEletrica = document.getElementById('check-eletrica').checked;
+      let obs = document.getElementById('obs-servico').value.trim();
+
+      if (!nomeServico && !querEletrica && !obs) {
+        alert('Selecione um serviço, marque a instalação elétrica ou escreva os detalhes antes de enviar!');
+        return;
+      }
+
+      let texto = "Olá! Gostaria de solicitar um atendimento técnico na GlimTech (Ipatinga):\n\n";
+
+      if (nomeServico) {
+        let servicoEncontrado = servicosDB.find(s => s.nome === nomeServico);
+        let precoTxt = servicoEncontrado ? `R$ ${servicoEncontrado.preco.toFixed(2)}` : "A combinar";
+        texto += `🔧 *Serviço:* ${nomeServico} (${precoTxt})\n`;
+      }
+
+      if (querEletrica) {
+        texto += `⚡ *Instalação Elétrica:* Sim, preciso de orçamento (ciente que é à parte mediante visita técnica, isenta ao fechar o serviço)\n`;
+      }
+
+      if (obs) {
+        texto += `📝 *Detalhes:* ${obs}\n`;
+      }
+
+      let telefone = "5531982993352";
+      let url = `https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+      limparCamposServico();
     }
 
     function atualizarCarrinho() {
