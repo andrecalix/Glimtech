@@ -301,7 +301,7 @@
       }
 
       if (querEletrica) {
-        carrinho.push({ nome: "Instalação Elétrica (À parte / Visita Técnica - isenta ao fechar)", preco: 0.00 });
+        carrinho.push({ nome: "Instalação Elétrica (Visita técnica com taxa, isenta/abonada ao fechar o serviço)", preco: 0.00 });
       }
       
       atualizarCarrinho();
@@ -327,7 +327,7 @@
       }
 
       if (querEletrica) {
-        texto += `⚡ *Instalação Elétrica:* Sim, preciso de orçamento (ciente que é à parte mediante visita técnica, isenta ao fechar o serviço)\n`;
+        texto += `⚡ *Instalação Elétrica:* Sim, preciso de orçamento (ciente de que a visita técnica possui taxa, isenta/abonada caso o serviço seja fechado)\n`;
       }
 
       if (obs) {
