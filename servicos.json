@@ -1,0 +1,45 @@
+[
+  { "nome": "Instalação Ar Split (7 a 12 mil BTUs)", "preco": 900.00, "categoria": "Instalação" },
+  { "nome": "Instalação Ar Split (18 a 22 mil BTUs)", "preco": 1100.00, "categoria": "Instalação" },
+  { "nome": "Instalação Ar Split (24 a 30 mil BTUs)", "preco": 1400.00, "categoria": "Instalação" },
+  { "nome": "Instalação Ar Split (32 mil BTUs)", "preco": 1600.00, "categoria": "Instalação" },
+  { "nome": "Instalação Ar Split (36 a 48 mil BTUs)", "preco": 3000.00, "categoria": "Instalação" },
+  { "nome": "Instalação Ar Split (60 a 90 mil BTUs)", "preco": 3950.00, "categoria": "Instalação" },
+
+  { "nome": "Limpeza Ar Split (9 a 12 mil BTUs)", "preco": 430.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar Split (18 mil BTUs)", "preco": 590.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar Split (22 a 30 mil BTUs)", "preco": 750.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar Split (32 mil BTUs)", "preco": 900.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar Split (36 a 48 mil BTUs)", "preco": 1750.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar Split (60 a 90 mil BTUs)", "preco": 2500.00, "categoria": "Limpeza" },
+
+  { "nome": "Limpeza Ar de Janela (7 a 10 mil BTUs)", "preco": 390.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar de Janela (12 a 18 mil BTUs)", "preco": 490.00, "categoria": "Limpeza" },
+  { "nome": "Limpeza Ar de Janela (21 a 30 mil BTUs)", "preco": 590.00, "categoria": "Limpeza" },
+
+  { "nome": "Desinstalação de Ar (9 a 12 mil BTUs)", "preco": 300.00, "categoria": "Desinstalação" },
+  { "nome": "Desinstalação de Ar (18 a 22 mil BTUs)", "preco": 350.00, "categoria": "Desinstalação" },
+  { "nome": "Desinstalação de Ar (24 a 30 mil BTUs)", "preco": 400.00, "categoria": "Desinstalação" },
+  { "nome": "Desinstalação de Ar (36 a 48 mil BTUs)", "preco": 500.00, "categoria": "Desinstalação" },
+  { "nome": "Desinstalação de Ar (60 a 90 mil BTUs)", "preco": 900.00, "categoria": "Desinstalação" },
+
+  { "nome": "Carga de Gás R22/R410/R32 (9 a 12 mil BTUs)", "preco": 550.00, "categoria": "Manutenção" },
+  { "nome": "Carga de Gás R22/R410/R32 (18 a 22 mil BTUs)", "preco": 650.00, "categoria": "Manutenção" },
+  { "nome": "Carga de Gás R22/R410/R32 (24 a 30 mil BTUs)", "preco": 750.00, "categoria": "Manutenção" },
+  { "nome": "Carga de Gás R22/R410/R32 (36 a 48 mil BTUs)", "preco": 850.00, "categoria": "Manutenção" },
+  { "nome": "Carga de Gás R22/R410/R32 (60 a 90 mil BTUs)", "preco": 1050.00, "categoria": "Manutenção" },
+
+  { "nome": "Troca Capacitor Motor Ventilador Condensadora", "preco": 300.00, "categoria": "Manutenção" },
+  { "nome": "Troca Capacitor Compressor Condensadora", "preco": 450.00, "categoria": "Manutenção" },
+  { "nome": "Troca de Relê da Placa Evaporadora Convencional", "preco": 400.00, "categoria": "Manutenção" },
+
+  { "nome": "Troca Rolamento Motor Ventilador (7 a 18 mil BTUs)", "preco": 400.00, "categoria": "Manutenção" },
+  { "nome": "Troca Rolamento Motor Ventilador (22 a 30 mil BTUs)", "preco": 490.00, "categoria": "Manutenção" },
+  { "nome": "Troca Rolamento Motor Ventilador (36 a 48 mil BTUs)", "preco": 590.00, "categoria": "Manutenção" },
+  { "nome": "Troca Rolamento Motor Ventilador (60 a 90 mil BTUs)", "preco": 690.00, "categoria": "Manutenção" },
+
+  { "nome": "Troca Sensor Gelo/Temperatura Convencional (7 a 30 mil BTUs)", "preco": 400.00, "categoria": "Manutenção" },
+  { "nome": "Troca Sensor Gelo/Temperatura Convencional (32 a 90 mil BTUs)", "preco": 500.00, "categoria": "Manutenção" },
+  { "nome": "Troca Sensor Gelo/Temperatura Inverter (9 a 30 mil BTUs)", "preco": 600.00, "categoria": "Manutenção" },
+  { "nome": "Troca Sensor Gelo/Temperatura Inverter (32 a 90 mil BTUs)", "preco": 790.00, "categoria": "Manutenção" }
+]
