@@ -212,7 +212,9 @@
       filtrados.forEach(s => {
         let option = document.createElement('option');
         option.value = s.nome;
-        option.textContent = `${s.nome} — R$ ${s.preco.toFixed(2)}`;
+        const precoNum = Number(s.preco) || 0;
+        const precoLabel = precoNum > 0 ? `R$ ${precoNum.toFixed(2)}` : `A combinar`;
+        option.textContent = `${s.nome} — ${precoLabel}`;
         select.appendChild(option);
       });
     }
@@ -229,7 +231,10 @@
 
       let servico = servicosDB.find(s => s.nome === nomeSelecionado);
       if (servico) {
-        preview.textContent = `Valor do Serviço: R$ ${servico.preco.toFixed(2)}`;
+        const precoNum = Number(servico.preco) || 0;
+        preview.textContent = precoNum > 0
+          ? `Valor do Serviço: R$ ${precoNum.toFixed(2)}`
+          : `Valor do Serviço: A combinar`;
         preview.style.display = 'block';
 
         if (servico.categoria === 'Instalação') {
@@ -250,23 +255,28 @@
       }
 
       lista.forEach(prod => {
+        const precoNum = Number(prod.preco) || 0;
+        const precoFormatado = precoNum > 0 ? `R$ ${precoNum.toFixed(2)}` : `A combinar`;
+        const nomeSeguro = String(prod.nome).replace(/'/g, "\\'");
+
         container.innerHTML += `
           <div class="item">
             <div>
               <span class="cat">${prod.categoria}</span>
               <img src="${prod.imagem}" alt="${prod.nome}" onerror="this.src='logo.jpg'">
               <h4>${prod.nome}</h4>
-              <p>R$ ${prod.preco.toFixed(2)}</p>
+              <p>${precoFormatado}</p>
             </div>
-            <button onclick="adicionar('${prod.nome}', ${prod.preco})">+ Adicionar</button>
+            <button onclick="adicionar('${nomeSeguro}', ${precoNum})">+ Adicionar</button>
           </div>
         `;
       });
     }
 
     function adicionar(nome, preco) {
-      carrinho.push({ nome, preco });
-      total += preco;
+      const precoNum = Number(preco) || 0;
+      carrinho.push({ nome, preco: precoNum });
+      total += precoNum;
       atualizarCarrinho();
       document.getElementById('busca').value = '';
       renderizarProdutos(produtosDB);
@@ -292,7 +302,7 @@
 
       if (nomeServico) {
         let servicoEncontrado = servicosDB.find(s => s.nome === nomeServico);
-        let precoServico = servicoEncontrado ? servicoEncontrado.preco : 0.00;
+        let precoServico = servicoEncontrado ? (Number(servicoEncontrado.preco) || 0) : 0.00;
         let nomeFinal = `Serviço: ${nomeServico}` + (obs ? ` (${obs})` : '');
         carrinho.push({ nome: nomeFinal, preco: precoServico });
         total += precoServico;
@@ -322,7 +332,8 @@
 
       if (nomeServico) {
         let servicoEncontrado = servicosDB.find(s => s.nome === nomeServico);
-        let precoTxt = servicoEncontrado ? `R$ ${servicoEncontrado.preco.toFixed(2)}` : "A combinar";
+        const precoNum = servicoEncontrado ? (Number(servicoEncontrado.preco) || 0) : 0;
+        let precoTxt = precoNum > 0 ? `R$ ${precoNum.toFixed(2)}` : "A combinar";
         texto += `🔧 *Serviço:* ${nomeServico} (${precoTxt})\n`;
       }
 
@@ -348,13 +359,14 @@
         lista.innerHTML = '<li style="list-style: none; margin-left: -20px;">Nenhum item adicionado.</li>';
       } else {
         carrinho.forEach(item => {
+          const precoNum = Number(item.preco) || 0;
           let li = document.createElement('li');
-          let precoTxt = item.preco > 0 ? `- R$ ${item.preco.toFixed(2)}` : `- (A combinar)`;
+          let precoTxt = precoNum > 0 ? `- R$ ${precoNum.toFixed(2)}` : `- (A combinar)`;
           li.textContent = `${item.nome} ${precoTxt}`;
           lista.appendChild(li);
         });
       }
-      document.getElementById('total').textContent = total.toFixed(2);
+      document.getElementById('total').textContent = (Number(total) || 0).toFixed(2);
     }
 
     function filtrarProdutos() {
@@ -374,10 +386,11 @@
       
       let texto = "Olá! Gostaria de fazer o seguinte pedido na GlimTech (Ipatinga):\n\n";
       carrinho.forEach(item => {
-        let precoTxt = item.preco > 0 ? `R$ ${item.preco.toFixed(2)}` : `A combinar / Visita Técnica`;
+        const precoNum = Number(item.preco) || 0;
+        let precoTxt = precoNum > 0 ? `R$ ${precoNum.toFixed(2)}` : `A combinar / Visita Técnica`;
         texto += `- ${item.nome} (${precoTxt})\n`;
       });
-      texto += `\n*Total Estimado: R$ ${total.toFixed(2)}*`;
+      texto += `\n*Total Estimado: R$ ${(Number(total) || 0).toFixed(2)}*`;
 
       let telefone = "5531982993352";
       let url = `https://api.whatsapp.com/send?phone=${telefone}&text=${encodeURIComponent(texto)}`;
