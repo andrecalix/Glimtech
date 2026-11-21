@@ -30,26 +30,29 @@ else:
     print("Aviso: produtos.json não encontrado. Criando base vazia.")
     produtos_db = []
 
-# 3. Lógica de atualização inteligente baseada no texto do PDF
-# Exemplo: O script varre o texto procurando correspondências com os produtos já cadastrados
+# 3. Lógica de atualização baseada no texto do PDF
 alteracoes_feitas = False
+texto_lower = texto_completo.lower()
 
 for prod in produtos_db:
     nome_produto = prod['nome'].lower()
-    
-    # Cria uma expressão regular para procurar o nome do produto e um valor em dinheiro (ex: R$ 15,00 ou 15.00) no texto do PDF
-    # Isso busca flexivelmente por números com vírgula ou ponto após o nome do item
-    padrao = re.escape(nome_produto) + r'.*?(?:R\$\s*)?(\d+[\.,]\d{2})'
-    resultado = re.search(padrao, texto_completo.lower(), re.IGNORECASE)
-    
+    preco_atual = float(prod.get('preco') or 0.0)
+
+    # Procura o nome do produto e um valor monetário na mesma linha (sem atravessar quebras de linha)
+    padrao = re.escape(nome_produto) + r'[^\n]*?(?:r\$\s*)?(\d+[\.,]\d{2})'
+    resultado = re.search(padrao, texto_lower)
+
     if resultado:
         preco_str = resultado.group(1).replace(',', '.')
         novo_preco = float(preco_str)
-        
-        if prod['preco'] != novo_preco:
-            print(f"Atualizando preço de '{prod['nome']}': R$ {prod['preco']} -> R$ {novo_preco}")
-            prod['preco'] = novo_preco
-            alteracoes_feitas = True
+    else:
+        # Se não houver preço no PDF para este item, limpa/zera o valor
+        novo_preco = 0.0
+
+    if preco_atual != novo_preco:
+        print(f"Atualizando preço de '{prod['nome']}': R$ {preco_atual:.2f} -> R$ {novo_preco:.2f}")
+        prod['preco'] = novo_preco
+        alteracoes_feitas = True
 
 # 4. Salva as alterações de volta no produtos.json se houver mudanças
 if alteracoes_feitas:
